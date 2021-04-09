@@ -1,5 +1,7 @@
 import datetime as dt
+from random import randint
 import re
+
 class User:
 
     #private variables
@@ -12,7 +14,20 @@ class User:
     number_of_users = 0
 
     def __init__(self, email_address, name):
-        print('pending initializer implementation')
+        self.set_name(name)
+        self.set_email_address(email_address)
+        self.set_password()
+        self.set_date_registered()
+        User.number_of_users += 1
+
+    def print_user_details(self):
+        print('==================================================')
+        print('====================== USER ======================')
+        print('==================================================')
+        print('Name: {0:<50}'.format(self.__name))
+        print('Email: {0:<50}'.format(self.__email_address))
+        print('Password: {0:<50}'.format(self.__password))
+        print('Date Registered: {0:<50}'.format(self.__date_registered))
 
     #getters
     def get_email_address(self):
@@ -29,8 +44,20 @@ class User:
 
     #setters
     def set_email_address(self, email_address):
-        regexPattern = re.compile(r'.*@.*\\..*')
-        if not re.match(regexPattern, email_address):
+        r = re.compile(r'^[\w-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
+        if not r.match(email_address):
             print('The email is not in the correct format.')
         else:
             self.__email_address = email_address
+
+    def set_name(self, name):
+        if not name:
+            print('The name cannot be null.')
+        else:
+            self.__name = name
+
+    def set_password(self):
+        self.__password = randint(0, 10000)
+
+    def set_date_registered(self):
+        self.__date_registered = str(dt.datetime.today())
