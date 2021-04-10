@@ -46,13 +46,13 @@ class User:
     def set_email_address(self, email_address):
         r = re.compile(r'^[\w-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
         if not r.match(email_address):
-            print('The email is not in the correct format.')
+            raise Exception('The email is not in the correct format.')
         else:
             self.__email_address = email_address
 
     def set_name(self, name):
         if not name:
-            print('The name cannot be null.')
+            raise Exception('The name cannot be null.')
         else:
             self.__name = name
 
