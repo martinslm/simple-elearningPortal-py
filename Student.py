@@ -22,6 +22,20 @@ class Student(User):
         except Exception as ex:
             print(ex)
 
+    def print_student_details(self):
+        print('==================================================')
+        print('==================== STUDENT =====================')
+        print('==================================================')
+        print('Name: {0:<50}'.format(self.__name))
+        print('Email: {0:<50}'.format(self.__email_address))
+        print('Password: {0:<50}'.format(self.__password))
+        print('Date Registered: {0:<50}'.format(self.__date_registered))
+        print('Student Number: {0:<50}'.format(self.__student_number))
+        print('Programme Code: {0:<50}'.format(self.__programme_code))
+        print('Programme Year: {0:<50}'.format(self.__programme_year))
+        print('Student Type: {0:<50}'.format(self.__student_type))
+        print('List of Grades: {0:<50}'.format(self.__list_of_grades))
+
     #getters
     def get_student_number(self):
         return self.__student_number
@@ -65,5 +79,3 @@ class Student(User):
 
     def set_list_of_grades(self, list_of_grades):
         self.__list_of_grades = list_of_grades
-
-teste = Student("errado@certo.com", "larissa", "123475990", '1', "1", "parttime", "teste")
