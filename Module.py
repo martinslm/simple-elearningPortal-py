@@ -72,3 +72,10 @@ class Module:
 
     def set_assessment_list(self, assessment_list):
         self.__assessment_list = assessment_list
+
+    #methods
+    def auto_add_class_list(self, fileName):
+        with open('Students.csv', 'r') as file:
+            for line in file:
+                student_object = line.split(',')
+                __student_class_list.append(student_object)
