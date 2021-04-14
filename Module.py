@@ -75,7 +75,7 @@ class Module:
 
     #methods
     def auto_add_class_list(self, fileName):
-        with open('Students.csv', 'r') as file:
+        with open(fileName, 'r') as file:
             for line in file:
                 student_object = line.split(',')
-                __student_class_list.append(student_object)
+                self.__student_class_list.append(student_object)
