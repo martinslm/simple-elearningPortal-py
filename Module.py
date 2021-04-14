@@ -1,3 +1,5 @@
+from Lecturer import Lecturer
+
 class Module:
 
     #private variables
@@ -6,8 +8,10 @@ class Module:
     __course_code = 0
     __department = 'Computing'
     __lecturer = ''
-    __student_class_list = ''
-    __assessment_list = ''
+    __student_class_list = []
+    __assessment_list = []
+
+    VALID_DEPARTMENTS_LIST = ['computing', 'science', 'marketing', 'business', 'art']
 
     def __init__(self, module_id, module_name, course_code, department, lecturer):
         self.set_module_id(module_id)
@@ -16,12 +20,7 @@ class Module:
         self.set_department(department)
         self.set_lecturer(lecturer)
 
-      #Para terminar itens 6:  Deve inicializar as variáveis apenas se os dados do parâmetro forem válidos, ou seja:
-      #  i.O module_id não deve ficar em branco.
-      #  ii.O departamento pode ser Computação / Ciência / Marketing / Negócios / Arte
-      #  iii.O palestrante __lecturer deve ser um objeto Palestrante.
-      #  d) As listas: class_list e assessment_list devem ser inicializadas com listas vazias.
-
+    #getters
     def get_module_id(self):
         return self.__module_id
 
@@ -43,8 +42,12 @@ class Module:
     def get_assessment_list(self):
         return self.__assessment_list
 
+    #setters
     def set_module_id(self, module_id):
-        self.__module_id = module_id
+        if not module_id:
+            raise Exception('Module Id cannot be null')
+        else:
+             self.__module_id = module_id
 
     def set_module_name(self, module_name):
         self.__module_name = module_name
@@ -53,10 +56,16 @@ class Module:
         self.__course_code = course_code
 
     def set_department(self, department):
-        self.__department = department
+        if not department.lower() in self.VALID_DEPARTMENTS_LIST:
+            raise Exception('The department should be invalid.')
+        else:
+            self.__department = department.lower()
 
     def set_lecturer(self, lecturer):
-        self.__lecturer = lecturer
+        if isinstance(lecturer, Lecturer):
+            self.__lecturer = lecturer
+        else:
+            raise Exception('The lecturer is not a valid object')
 
     def set_student_class_list(self, student_class_list):
         self.__student_class_list = student_class_list
