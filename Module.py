@@ -79,3 +79,39 @@ class Module:
             for line in file:
                 student_object = line.split(',')
                 self.__student_class_list.append(student_object)
+
+    def append_to_assessment_list(self, assessment_1d_format):
+        self.__assessment_list.append(assessment_1d_format)
+
+    def print_module_details(self):
+        print('=======================================================================================')
+        print('====================================== MODULE =========================================')
+        print('=======================================================================================')
+        print('Module Id: {0:<50}'.format(self.__module_id))
+        print('Module Name: {0:<50}'.format(self.__module_name))
+        print('Course Code: {0:<50}'.format(self.__course_code))
+        print('Department: {0:<50}'.format(self.__department))
+        print('Lecturer:')
+        print('     Email Address: {0:<50}' .format(__lecturer.get_email_address()))
+        print('     Name: {0:<50}'.format(__lecturer.get_name()))
+        print('     Staff Id: {0:<50}'.format(__lecturer.get_staff_id()))
+        print('     Speciality: {0:<50}'.format(__lecturer.get_speciality()))
+        print('     Qualification: {0:<50}'.format(__lecturer.get_qualification()))
+        print('Students in Class: ')
+        for i in range(len(__student_class_list)):
+            print(' ')
+            print('     Email: ' .format(a[i][0]))
+            print('     Name: '.format(a[i][2]))
+            print('     Date Registered: '.format(a[i][3]))
+            print('     Student Number: '.format(a[i][4]))
+            print('     Programme Code: '.format(a[i][5]))
+            print('     Programme Year: '.format(a[i][6]))
+            print('     Student Type: '.format(a[i][7]))
+            print('     List of Grades: '.format(a[i][8]))
+        print('Assessment List:')
+        for i in range(len(__assessment_list)):
+            print(' ')
+            print('     Student Number: ' .format(a[i][0]))
+            print('     Assessment Name: '.format(a[i][1]))
+            print('     Percentage Achieved: '.format(a[i][2]))
+            print('     Grade Achieved: '.format(a[i][3]))
