@@ -16,8 +16,10 @@ class User:
     def __init__(self, email_address, name):
         self.set_name(name)
         self.set_email_address(email_address)
-        self.set_password(randint(0, 10000))
-        self.set_date_registered(str(dt.datetime.today()))
+        passwd = randint(0, 10000)
+        self.set_password(passwd)
+        date_registered = str(dt.datetime.today())
+        self.set_date_registered(date_registered)
         User.number_of_users += 1
 
     def print_user_details(self):
@@ -57,7 +59,11 @@ class User:
             self.__name = name
 
     def set_password(self, password):
-        self.__password = password
+        passwd_int = int(password)
+        if passwd_int > 10000:
+            raise Exception('The password is not in the correct format.')
+        else:
+            self.__password = str(password)
 
     def set_date_registered(self, date):
         self.__date_registered = date

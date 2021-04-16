@@ -48,13 +48,13 @@ class Module:
         if not module_id:
             raise Exception('Module Id cannot be null')
         else:
-             self.__module_id = module_id
+             self.__module_id = int(module_id)
 
     def set_module_name(self, module_name):
         self.__module_name = module_name
 
     def set_course_code(self, course_code):
-        self.__course_code = course_code
+        self.__course_code = int(course_code)
 
     def set_department(self, department):
         if not department.lower() in self.VALID_DEPARTMENTS_LIST:
