@@ -26,15 +26,20 @@ class Student(User):
         print('==================================================')
         print('==================== STUDENT =====================')
         print('==================================================')
-        print('Name: {0:<50}'.format(self.__name))
-        print('Email: {0:<50}'.format(self.__email_address))
-        print('Password: {0:<50}'.format(self.__password))
-        print('Date Registered: {0:<50}'.format(self.__date_registered))
+        print('Name: {0:<50}'.format(self.get_name()))
+        print('Email: {0:<50}'.format(self.get_email_address()))
+        print('Password: {0:<50}'.format(self.get_password()))
+        print('Date Registered: {0:<50}'.format(self.get_date_registered()))
         print('Student Number: {0:<50}'.format(self.__student_number))
         print('Programme Code: {0:<50}'.format(self.__programme_code))
         print('Programme Year: {0:<50}'.format(self.__programme_year))
         print('Student Type: {0:<50}'.format(self.__student_type))
-        print('List of Grades: {0:<50}'.format(self.__list_of_grades))
+        if type(self.__list_of_grades) is list:
+            print('List of Grades:')
+            for i in range(len(self.__list_of_grades)):
+                print('     {0}' .format(self.__list_of_grades[i]))
+        else:
+            print('List of Grades: {0:<50}'.format(self.__list_of_grades))
 
     #getters
     def get_student_number(self):

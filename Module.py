@@ -1,4 +1,5 @@
 from Lecturer import Lecturer
+from Student import Student
 
 class Module:
 
@@ -77,11 +78,20 @@ class Module:
     def auto_add_class_list(self, fileName):
         with open(fileName, 'r') as file:
             for line in file:
-                student_object = line.split(',')
+                lineOfArray = line.split(';')
+                student_object = Student(lineOfArray[0], lineOfArray[2], lineOfArray[4], lineOfArray[5], lineOfArray[6], lineOfArray[7], lineOfArray[8])
+                student_object.set_password(lineOfArray[1])
+                student_object.set_date_registered(lineOfArray[3])
                 self.__student_class_list.append(student_object)
 
     def append_to_assessment_list(self, assessment_1d_format):
         self.__assessment_list.append(assessment_1d_format)
+
+    def append_to_class_list(self, student):
+        if isinstance(student, Student):
+            self.__student_class_list.append(student)
+        else:
+            raise Exception('Objeto Inválido')
 
     def print_module_details(self):
         print('=======================================================================================')
@@ -98,20 +108,19 @@ class Module:
         print('     Speciality: {0:<50}'.format(self.__lecturer.get_speciality()))
         print('     Qualification: {0:<50}'.format(self.__lecturer.get_qualification()))
         print('Students in Class: ')
-        for i in range(len(self.__student_class_list)):
-            print(' ')
-            print('     Email: ' .format(self.__student_class_list[i][0]))
-            print('     Name: '.format(self.__student_class_list[i][2]))
-            print('     Date Registered: '.format(self.__student_class_list[i][3]))
-            print('     Student Number: '.format(self.__student_class_list[i][4]))
-            print('     Programme Code: '.format(self.__student_class_list[i][5]))
-            print('     Programme Year: '.format(self.__student_class_list[i][6]))
-            print('     Student Type: '.format(self.__student_class_list[i][7]))
-            print('     List of Grades: '.format(self.__student_class_list[i][8]))
+        for student in self.__student_class_list:
+            print('     Email: {0}' .format(student.get_email_address()))
+            print('     Name: {0}'.format(student.get_name()))
+            print('     Date Registered: {0}'.format(student.get_date_registered()))
+            print('     Student Number: {0}'.format(student.get_student_number()))
+            print('     Programme Code: {0}'.format(student.get_programme_code()))
+            print('     Programme Year: {0}'.format(student.get_programme_year()))
+            print('     Student Type: {0}'.format(student.get_student_type()))
+            print('     List of Grades: {0}'.format(student.get_list_of_grades()))
         print('Assessment List:')
-        for i in range(len(self.__assessment_list)):
+        for assessment in self.__assessment_list:
             print(' ')
-            print('     Student Number: ' .format(self.__assessment_list[i][0]))
-            print('     Assessment Name: '.format(self.__assessment_list[i][1]))
-            print('     Percentage Achieved: '.format(self.__assessment_list[i][2]))
-            print('     Grade Achieved: '.format(self.__assessment_list[i][3]))
+            print('     Student Number: {0}' .format(assessment[0]))
+            print('     Assessment Name: {0}'.format(assessment[1]))
+            print('     Percentage Achieved: {0}'.format(assessment[2]))
+            print('     Grade Achieved: {0}'.format(assessment[3]))

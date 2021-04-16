@@ -16,8 +16,8 @@ class User:
     def __init__(self, email_address, name):
         self.set_name(name)
         self.set_email_address(email_address)
-        self.set_password()
-        self.set_date_registered()
+        self.set_password(randint(0, 10000))
+        self.set_date_registered(str(dt.datetime.today()))
         User.number_of_users += 1
 
     def print_user_details(self):
@@ -56,8 +56,8 @@ class User:
         else:
             self.__name = name
 
-    def set_password(self):
-        self.__password = randint(0, 10000)
+    def set_password(self, password):
+        self.__password = password
 
-    def set_date_registered(self):
-        self.__date_registered = str(dt.datetime.today())
+    def set_date_registered(self, date):
+        self.__date_registered = date
