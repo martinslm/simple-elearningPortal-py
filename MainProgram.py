@@ -6,7 +6,8 @@ import GradeCalculator as gc
 option = 1
 lecturerTest = Lecturer('email@lecturer.com', 'Lecturer of art', '123456', 'dance', 'phd')
 moduleTest = Module('1','Art','10','Art', lecturerTest)
-list_of_modules = [moduleTest]
+moduleTest2 = Module('2','Art','10','Art', lecturerTest)
+list_of_modules = [moduleTest, moduleTest2]
 
 from User import User
 userTest = User('email@user.com', 'test')
@@ -78,7 +79,16 @@ def add_students_grades_to_module():
             moduleObject.append_to_assessment_list(list1d)
 
 def display_all_modules():
-    print('opcao 4 selecionada')
+    for module in list_of_modules:
+        module.print_module_details()
+
+    print('\n')
+    print('*** TOTAL NUMBER OF MODULES: {0} ****' .format(len(list_of_modules)))
+    print('*** TOTAL NUMBER OF STUDENTS: {0} ****' .format()) #descobrir
+    #Mostra a lista de todos os Módulos e no final irá mostrar:
+    #• Número total de módulos no sistema. // Total number of modules in the system.
+    #• Número total de alunos no sistema. // Total number of students in the system.
+    #• Número total de módulos do sistema, por departamento. // Total number of modules in the system, by department.
 
 def display_list_of_students():
     print("opcao 5 selecionado")
