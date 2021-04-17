@@ -9,16 +9,11 @@ moduleTest = Module('1','Art','10','Art', lecturerTest)
 moduleTest2 = Module('2','Art','10','Art', lecturerTest)
 list_of_modules = [moduleTest, moduleTest2]
 
-from User import User
-userTest = User('email@user.com', 'test')
-userTest.set_password('23')
-userTest.print_user_details()
-
 #MENU FUNCTIONS
 def add_module():
     module_id = int(input('Enter the module Id: '))
-    containsId = any((module.get_module_id() == module_id) for module in list_of_modules)
-    if containsId:
+    contains_id = any((module.get_module_id() == module_id) for module in list_of_modules)
+    if contains_id:
         print('ATTENTION: There is already a module registered in the system for this Id.')
     else:
         module_name = input('Enter the module Name: ')
@@ -35,18 +30,19 @@ def add_module():
 
 def add_students_to_module():
     module_id = int(input('Enter the module Id: '))
-    containsId = any((module.get_module_id() == module_id) for module in list_of_modules)
-    if not containsId:
+    contains_id = any((module.get_module_id() == module_id) for module in list_of_modules)
+    if not contains_id:
         print('Module not found')
     else:
-        moduleForAddUsers = [module for module in list_of_modules if module.get_module_id() == module_id]
-        for item in moduleForAddUsers:
-            moduleObject = item
-        selectedWay = input('How do you want to add students? \n Select 1 for a file \n Select 2 for manual mode \n Others inputs return for the menu\n')
-        if selectedWay == '1':
-            fileName = input('Enter the file: ')
-            moduleObject.auto_add_class_list(fileName)
-        elif selectedWay == '2':
+        module_for_add_users = [module for module in list_of_modules if module.get_module_id() == module_id]
+        for item in module_for_add_users:
+            module_object = item
+        selected_way = input('How do you want to add students? \n Select 1 for a file \n Select 2 for manual mode \n Others inputs return for the menu\n')
+        if selected_way == '1':
+            file_name = input('Enter the file: ')
+            module_object.auto_add_class_list(file_name)
+            print('Sucess to insert')
+        elif selected_way == '2':
             email_address = input('Enter the email address: ')
             name = input('Enter the user name: ')
             student_number = input('Enter the student number: ')
@@ -55,46 +51,90 @@ def add_students_to_module():
             student_type = input('Enter the student type: ')
             list_of_grades = input('Enter the list of grades: ')
             student = Student(email_address, name, student_number, programme_code, programme_year, student_type, list_of_grades)
-            student.print_student_details()
-            moduleObject.append_to_class_list(student)
+            module_object.append_to_class_list(student)
+            print('Sucess to insert')
         else:
             return
 
 def add_students_grades_to_module():
     module_id = int(input('Enter the module Id: '))
-    containsId = any((module.get_module_id() == module_id) for module in list_of_modules)
-    if not containsId:
+    contains_id = any((module.get_module_id() == module_id) for module in list_of_modules)
+    if not contains_id:
         print('Module not found')
     else:
-        quantityOfGrades = int(input('How many grades you want to add?'))
-        for i in range(quantityOfGrades):
+        quantity_of_grades = int(input('How many grades you want to add?'))
+        for i in range(quantity_of_grades):
             student_number = input('Enter the student number: ')
             assessment_name = input('Enter the assessment name: ')
             percentage_achieved = input('Enter the percentage achieved: ')
             grade_achieved = gc.GradeCalculator.calculate_grade(percentage_achieved)
             list1d = [student_number, assessment_name, percentage_achieved, grade_achieved]
-            moduleForAddUsers = [module for module in list_of_modules if module.get_module_id() == module_id]
-            for item in moduleForAddUsers:
-                moduleObject = item
-            moduleObject.append_to_assessment_list(list1d)
+            module_for_add_users = [module for module in list_of_modules if module.get_module_id() == module_id]
+            for item in module_for_add_users:
+                module_object = item
+            module_object.append_to_assessment_list(list1d)
 
 def display_all_modules():
+    total_students = 0
+    departments = [];
     for module in list_of_modules:
         module.print_module_details()
-
+        total_students += len(module.get_student_class_list())
+        departments = module.VALID_DEPARTMENTS_LIST
     print('\n')
     print('*** TOTAL NUMBER OF MODULES: {0} ****' .format(len(list_of_modules)))
-    print('*** TOTAL NUMBER OF STUDENTS: {0} ****' .format()) #descobrir
-    #Mostra a lista de todos os Módulos e no final irá mostrar:
-    #• Número total de módulos no sistema. // Total number of modules in the system.
-    #• Número total de alunos no sistema. // Total number of students in the system.
-    #• Número total de módulos do sistema, por departamento. // Total number of modules in the system, by department.
+    print('*** TOTAL NUMBER OF STUDENTS: {0} ****' .format(total_students))
+    for department in departments:
+        department_count = len([module for module in list_of_modules if module.get_department() == department])
+        print('*** TOTAL NUMBER OF MODULES WITH {0} DEPARTMENT: {1} ****'.format(department.upper(), department_count))
 
 def display_list_of_students():
-    print("opcao 5 selecionado")
+    module_id = int(input('Enter the module Id: '))
+    contains_id = any((module.get_module_id() == module_id) for module in list_of_modules)
+    if not contains_id:
+        print('Module not found')
+    else:
+        module_for_list_students = [module for module in list_of_modules if module.get_module_id() == module_id]
+        for module in module_for_list_students:
+            total_students = len(module.get_student_class_list())
+            for student in module.get_student_class_list():
+                student.print_student_details()
+            print('*** TOTAL STUDENTS IN MODULE {0}: {1} ***' .format(module.get_module_id(), total_students))
 
 def display_list_of_students_grades():
-    print("opcao 6 selecionada")
+    module_id = int(input('Enter the module Id: '))
+    contains_id = any((module.get_module_id() == module_id) for module in list_of_modules)
+    if not contains_id:
+        print('Module not found')
+    else:
+        module_for_list_assessment = [module for module in list_of_modules if module.get_module_id() == module_id]
+        for module in module_for_list_assessment:
+            assessment_list = module.get_assessment_list()
+            total = len(assessment_list)
+            highest_percentage = max(int(percentage) for percentage in assessment_list[2])
+            lowest_percentage = min(int(percentage) for percentage in assessment_list[2])
+            average_percentage = sum(int(percentage) for percentage in assessment_list[2]) / total
+            for assessment in assessment_list:
+                print('**********************************')
+                print('*********** ASSESSMENT ***********')
+                print('**********************************')
+                print('     Student Number: {0}'.format(assessment[0]))
+                print('     Assessment Name: {0}'.format(assessment[1]))
+                print('     Percentage Achieved: {0}'.format(assessment[2]))
+                print('     Grade Achieved: {0}'.format(assessment[3]))
+
+            print('**************************************')
+            print('********* GENERAL INFORMATIONS *******')
+            print('**************************************')
+
+            print('Total: {0}' .format(total))
+            print('Highest: {0}' .format(highest_percentage))
+            print('Lowest: {0}'.format(lowest_percentage))
+            print('Average: {0}' .format(average_percentage))
+            grades = ['A', 'B+', 'B', 'B-', 'C+', 'C', 'D', 'F']
+            for grade in grades:
+                students_in_grade = len([assessment for assessment in module.get_assessment_list() if assessment[3] == grade])
+                print('{0}: {1} students' .format(grade, students_in_grade))
 
 def exit():
     print('bye bye')
