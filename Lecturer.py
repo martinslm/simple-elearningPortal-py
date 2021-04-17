@@ -10,13 +10,10 @@ class Lecturer(User):
     VALID_QUALIFICATIONS_LIST = ['ba', 'bsc', 'ma', 'msc', 'phd']
 
     def __init__(self, email_address, name, staff_id, speciality, qualification):
-        try:
-            super().__init__(email_address, name)
-            self.set_staff_id(staff_id)
-            self.set_speciality(speciality)
-            self.set_qualification(qualification)
-        except Exception as ex:
-            print(ex)
+        super().__init__(email_address, name)
+        self.set_staff_id(staff_id)
+        self.set_speciality(speciality)
+        self.set_qualification(qualification)
 
     def print_lecturer_details(self):
         print('==================================================')

@@ -12,15 +12,12 @@ class Student(User):
     STUDENT_TYPES_LIST = ['fulltime', 'parttime']
 
     def __init__(self, email_address, name, student_number, programme_code, programme_year, student_type, list_of_grades):
-        try:
-            super().__init__(email_address,name)
-            self.set_student_number(student_number)
-            self.set_programme_code(programme_code)
-            self.set_programme_year(programme_year)
-            self.set_student_type(student_type)
-            self.set_list_of_grades(list_of_grades)
-        except Exception as ex:
-            print(ex)
+        super().__init__(email_address,name)
+        self.set_student_number(student_number)
+        self.set_programme_code(programme_code)
+        self.set_programme_year(programme_year)
+        self.set_student_type(student_type)
+        self.set_list_of_grades(list_of_grades)
 
     def print_student_details(self):
         print('==================================================')
