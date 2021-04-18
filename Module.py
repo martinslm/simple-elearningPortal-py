@@ -93,7 +93,7 @@ class Module:
         if isinstance(student, Student):
             self.__student_class_list.append(student)
         else:
-            raise Exception('Objeto Inválido')
+            raise Exception('Invalid Object')
 
     def print_module_details(self):
         print('=======================================================================================')
@@ -104,8 +104,8 @@ class Module:
         print('Course Code: {0:<50}'.format(self.__course_code))
         print('Department: {0:<50}'.format(self.__department))
         print('Lecturer:')
-        print('     Email Address: {0:<50}' .format(self.__lecturer.get_email_address()))
-        print('     Name: {0:<50}'.format(self.__lecturer.get_name()))
-        print('     Staff Id: {0:<50}'.format(self.__lecturer.get_staff_id()))
-        print('     Speciality: {0:<50}'.format(self.__lecturer.get_speciality()))
-        print('     Qualification: {0:<50}'.format(self.__lecturer.get_qualification()))
+        print('\tEmail Address: {0:<50}' .format(self.__lecturer.get_email_address()))
+        print('\tName: {0:<50}'.format(self.__lecturer.get_name()))
+        print('\tStaff Id: {0:<50}'.format(self.__lecturer.get_staff_id()))
+        print('\tSpeciality: {0:<50}'.format(self.__lecturer.get_speciality()))
+        print('\tQualification: {0:<50}'.format(self.__lecturer.get_qualification()))

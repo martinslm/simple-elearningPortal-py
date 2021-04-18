@@ -2,12 +2,17 @@ from Module import Module
 from Lecturer import Lecturer
 from Student import Student
 import GradeCalculator as gc
+import csv
 
 option = 1
-lecturerTest = Lecturer('email@lecturer.com', 'Lecturer of art', '123456', 'dance', 'phd')
-moduleTest = Module('1','Art','10','Art', lecturerTest)
-moduleTest2 = Module('2','Art','10','Art', lecturerTest)
-list_of_modules = [moduleTest, moduleTest2]
+list_of_modules = []
+
+with open('Modules.csv', 'r') as file:
+    modules_in_csv = [item for item in list(csv.reader(file)) if item]
+    for module in modules_in_csv:
+        lecturer_object = Lecturer(module[4], module[5], module[6], module[7], module[8])
+        module_object = Module(module[0], module[1], module[2], module[3], lecturer_object)
+        list_of_modules.append(module_object)
 
 #MENU FUNCTIONS
 def add_module():
@@ -27,6 +32,7 @@ def add_module():
         lecturer = Lecturer(email_address_lecturer, name_lecturer, staff_id_lecturer, speciality_lecturer, qualification_lecturer)
         module = Module(module_id, module_name, course_code, department, lecturer)
         list_of_modules.append(module)
+        print('Sucess to Add')
 
 def add_students_to_module():
     module_id = int(input('Enter the module Id: '))
@@ -64,19 +70,22 @@ def add_students_grades_to_module():
     else:
         quantity_of_grades = int(input('How many grades you want to add?'))
         for i in range(quantity_of_grades):
+            print('**********************')
             student_number = input('Enter the student number: ')
             assessment_name = input('Enter the assessment name: ')
             percentage_achieved = input('Enter the percentage achieved: ')
+            print('**********************')
             grade_achieved = gc.GradeCalculator.calculate_grade(percentage_achieved)
             list1d = [student_number, assessment_name, percentage_achieved, grade_achieved]
             module_for_add_users = [module for module in list_of_modules if module.get_module_id() == module_id]
             for item in module_for_add_users:
                 module_object = item
             module_object.append_to_assessment_list(list1d)
+            print('Sucess to insert')
 
 def display_all_modules():
     total_students = 0
-    departments = [];
+    departments = []
     for module in list_of_modules:
         module.print_module_details()
         total_students += len(module.get_student_class_list())
@@ -111,17 +120,32 @@ def display_list_of_students_grades():
         for module in module_for_list_assessment:
             assessment_list = module.get_assessment_list()
             total = len(assessment_list)
-            highest_percentage = max(int(percentage) for percentage in assessment_list[2])
-            lowest_percentage = min(int(percentage) for percentage in assessment_list[2])
-            average_percentage = sum(int(percentage) for percentage in assessment_list[2]) / total
+            highest_percentage = 0
+            lowest_percentage = 100
+            sum_percentage = 0
+
             for assessment in assessment_list:
+                student_number = assessment[0]
+                assessment_name = assessment[1]
+                percentage_achieved = int(assessment[2])
+                grade_achieved = assessment[3]
+                sum_percentage += percentage_achieved
+
+                if percentage_achieved > highest_percentage:
+                    highest_percentage = percentage_achieved
+
+                if percentage_achieved < lowest_percentage:
+                    lowest_percentage = percentage_achieved
+
                 print('**********************************')
                 print('*********** ASSESSMENT ***********')
                 print('**********************************')
-                print('     Student Number: {0}'.format(assessment[0]))
-                print('     Assessment Name: {0}'.format(assessment[1]))
-                print('     Percentage Achieved: {0}'.format(assessment[2]))
-                print('     Grade Achieved: {0}'.format(assessment[3]))
+                print('Student Number: {0}'.format(student_number))
+                print('Assessment Name: {0}'.format(assessment_name))
+                print('Percentage Achieved: {0}'.format(percentage_achieved))
+                print('Grade Achieved: {0}'.format(grade_achieved))
+
+            average_percentage = sum_percentage / total
 
             print('**************************************')
             print('********* GENERAL INFORMATIONS *******')
@@ -134,10 +158,30 @@ def display_list_of_students_grades():
             grades = ['A', 'B+', 'B', 'B-', 'C+', 'C', 'D', 'F']
             for grade in grades:
                 students_in_grade = len([assessment for assessment in module.get_assessment_list() if assessment[3] == grade])
-                print('{0}: {1} students' .format(grade, students_in_grade))
+                print('{0:<2}: {1} students' .format(grade, students_in_grade))
 
 def exit():
-    print('bye bye')
+    with open('Modules.csv', 'r+') as file:
+        modules_in_csv = [item for item in list(csv.reader(file)) if item]
+        writer = csv.writer(file)
+        for module in list_of_modules:
+            module_id = str(module.get_module_id())
+            contains_id = any((str(module_csv[0]) == module_id) for module_csv in modules_in_csv)
+            if not contains_id:
+                lecturer = module.get_lecturer()
+                module_csv = [module.get_module_id(),
+                              module.get_module_name(),
+                              module.get_course_code(),
+                              module.get_department(),
+                              lecturer.get_email_address(),
+                              lecturer.get_name(),
+                              lecturer.get_staff_id(),
+                              lecturer.get_speciality(),
+                              lecturer.get_qualification()]
+                writer.writerow(module_csv)
+
+    print('Goodbye')
+
 
 #MENU
 while option != 7:
@@ -146,8 +190,8 @@ while option != 7:
     print("*                                Menu                                   *")
     print("*                          1) Add module                                *")
     print("*                     2) Add students to Module                         *")
-    print("*                  3) Add student grades to Module:                     *")
-    print("*   4) Display list of all Modules and at the end it will display:      *")
+    print("*                  3) Add student grades to Module                      *")
+    print("*   4) Display list of all Modules and at the end it will display       *")
     print("*                   5) Display list of Students                         *")
     print("*                6) Display list of Students Grades                     *")
     print("*                               7) Exit                                 *")
