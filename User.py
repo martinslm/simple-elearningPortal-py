@@ -46,9 +46,9 @@ class User:
 
     #setters
     def set_email_address(self, email_address):
-        r = re.compile(r'^[\w-]+@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$')
-        if not r.match(email_address):
-            raise Exception('The email is not in the correct format.')
+        regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
+        if not re.search(regex, email_address):
+            raise Exception('The email {} is not in the correct format.' .format(email_address))
         else:
             self.__email_address = email_address
 

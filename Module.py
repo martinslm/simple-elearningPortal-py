@@ -1,12 +1,13 @@
 from Lecturer import Lecturer
 from Student import Student
+import csv
 
 class Module:
 
     #private variables
     __module_id = 0
     __module_name = 'Unknown'
-    __course_code = 0
+    __course_code = ''
     __department = 'Computing'
     __lecturer = ''
     __student_class_list = ''
@@ -56,7 +57,7 @@ class Module:
         self.__module_name = module_name
 
     def set_course_code(self, course_code):
-        self.__course_code = int(course_code)
+        self.__course_code = course_code
 
     def set_department(self, department):
         if not department.lower() in self.VALID_DEPARTMENTS_LIST:
@@ -76,14 +77,11 @@ class Module:
     def set_assessment_list(self, assessment_list):
         self.__assessment_list = assessment_list
 
-    #methods
     def auto_add_class_list(self, file_name):
         with open(file_name, 'r') as file:
-            for line in file:
-                line_of_array = line.split(';')
-                student_object = Student(line_of_array[0], line_of_array[2], line_of_array[4], line_of_array[5], line_of_array[6], line_of_array[7], line_of_array[8])
-                student_object.set_password(line_of_array[1])
-                student_object.set_date_registered(line_of_array[3])
+            students_in_csv = [item for item in list(csv.DictReader(file))]
+            for student in students_in_csv:
+                student_object = Student(student['Student_Email'], student['Student_Name'], student['Student_Number'], student['Programme_Code'], student['Programme_year'], student['Student_Type'], '')
                 self.__student_class_list.append(student_object)
 
     def append_to_assessment_list(self, assessment_1d_format):

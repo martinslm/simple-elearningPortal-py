@@ -8,10 +8,10 @@ option = 1
 list_of_modules = []
 
 with open('Modules.csv', 'r') as file:
-    modules_in_csv = [item for item in list(csv.reader(file)) if item]
+    modules_in_csv = [item for item in list(csv.DictReader(file)) if item]
     for module in modules_in_csv:
-        lecturer_object = Lecturer(module[4], module[5], module[6], module[7], module[8])
-        module_object = Module(module[0], module[1], module[2], module[3], lecturer_object)
+        lecturer_object = Lecturer(module['Lecturer_Email'], module['Lecturer_Name'], module['Lecturer_StaffId'], module['Lecturer_Speciality'], module['Lecturer_Qualification'])
+        module_object = Module(module['ModuleId'], module['ModuleName'], module['CourseCode'], module['Department'], lecturer_object)
         list_of_modules.append(module_object)
 
 #MENU FUNCTIONS
@@ -162,11 +162,11 @@ def display_list_of_students_grades():
 
 def exit():
     with open('Modules.csv', 'r+') as file:
-        modules_in_csv = [item for item in list(csv.reader(file)) if item]
+        modules_in_csv = [item for item in list(csv.DictReader(file)) if item]
         writer = csv.writer(file)
         for module in list_of_modules:
             module_id = str(module.get_module_id())
-            contains_id = any((str(module_csv[0]) == module_id) for module_csv in modules_in_csv)
+            contains_id = any((str(module_csv['ModuleId']) == module_id) for module_csv in modules_in_csv)
             if not contains_id:
                 lecturer = module.get_lecturer()
                 module_csv = [module.get_module_id(),

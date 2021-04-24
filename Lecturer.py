@@ -7,7 +7,7 @@ class Lecturer(User):
     __speciality = ''
     __qualification = ''
 
-    VALID_QUALIFICATIONS_LIST = ['ba', 'bsc', 'ma', 'msc', 'phd']
+    VALID_QUALIFICATIONS_LIST = ['BA', 'BSC', 'MA', 'MSC', 'PHD']
 
     def __init__(self, email_address, name, staff_id, speciality, qualification):
         super().__init__(email_address, name)
@@ -51,7 +51,7 @@ class Lecturer(User):
             self.__speciality = speciality
 
     def set_qualification(self, qualification):
-        if not qualification.lower() in self.VALID_QUALIFICATIONS_LIST:
-            raise Exception('Qualification type must be ba, bsc, ma, msc or phd')
+        if not qualification.upper() in self.VALID_QUALIFICATIONS_LIST:
+            raise Exception('Qualification type must be BA, BSC, MA, MSC or PHD')
         else:
-            self.__qualification = qualification.lower()
+            self.__qualification = qualification.upper()

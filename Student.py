@@ -9,7 +9,7 @@ class Student(User):
     __student_type = ''
     __list_of_grades = ''
 
-    STUDENT_TYPES_LIST = ['fulltime', 'parttime']
+    STUDENT_TYPES_LIST = ['FT', 'PT']
 
     def __init__(self, email_address, name, student_number, programme_code, programme_year, student_type, list_of_grades):
         super().__init__(email_address,name)
@@ -74,10 +74,10 @@ class Student(User):
             self.__programme_year = programme_year
 
     def set_student_type(self, student_type):
-        if not student_type.lower() in self.STUDENT_TYPES_LIST:
-            raise Exception('Student type must be fulltime or parttime')
+        if not student_type.upper() in self.STUDENT_TYPES_LIST:
+            raise Exception('Student type must be FT or PT')
         else:
-            self.__student_type = student_type.lower()
+            self.__student_type = student_type.upper()
 
     def set_list_of_grades(self, list_of_grades):
         self.__list_of_grades = list_of_grades
